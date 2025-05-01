@@ -38,23 +38,10 @@ fn anyzigLog(
     comptime format: []const u8,
     args: anytype,
 ) void {
-    const scope_level = comptime (switch (scope) {
-        .default => switch (level) {
-            .info => "",
-            inline else => ": " ++ level.asText(),
-        },
-        else => |s| "(" ++ @tagName(s) ++ "): " ++ level.asText(),
-    });
-    const stderr = std.io.getStdErr().writer();
-    var bw = std.io.bufferedWriter(stderr);
-    const writer = bw.writer();
-
-    std.debug.lockStdErr();
-    defer std.debug.unlockStdErr();
-    nosuspend {
-        writer.print("anyzig" ++ scope_level ++ ": " ++ format ++ "\n", args) catch return;
-        bw.flush() catch return;
-    }
+    _ = level;
+    _ = scope;
+    _ = format;
+    _ = args;
 }
 
 const Extent = struct { start: usize, limit: usize };
